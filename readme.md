@@ -28,12 +28,25 @@ es6 `import` 只能放在顶部位置
 
 ### 主入口执行滞后
 通俗的来说就是：从开始加载js到运行到主入口时间过长，AMD因为只加载要运行的部分，所以就`执行所有模块声明，获得模块实例`此项问题没有CMD严重，但是依然存在问题；
+所有的模块在真正运行到主函数之前都会执行声明获得export的实例，所以模块越多，执行时间越长。如果在声明部分执行一些耗时的逻辑，这样这个模块获得模块实例的时间更长，看一下以下的例子：
+```
+var chineseName = ['上海', '北京', '广州', '南京', '苏州'];
+var enNames = ['ShangHai', 'BeiJin', 'GuangZhou', 'NanJin', 'SuZhou'];
+var locationSet = {};
+console.time("locationSet composite");
+for (var i=0; i < enNames.length; i++) {
+    locationSet[enNames[i]] = {
+        'enName': enNames[i],
+        'cnName': chineseName[i]
+    }
+}
+console.timeEnd("locationSet composite");
+module.exports = locationSet;
+```
+
 
 <img src="./imgs/modules2.png"/>
 
-
-### 执行所有模块声明，获得模块实例
-简单的来说，模块的最后都是export
 
 ## widget.js
 > 小巧的view层
