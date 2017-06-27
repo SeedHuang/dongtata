@@ -43,9 +43,12 @@ for (var i=0; i < enNames.length; i++) {
 console.timeEnd("locationSet composite");
 module.exports = locationSet;
 ```
-
+最后输出的时间是`locationSet composite: 0.23193359375ms`
+以上只是5个城市，如果全国所有的30个省会城市的话，将会乘以6倍，对于首页来说，如果有10个模块有这种逻辑的话，所以后果就可想而知了。
 
 <img src="./imgs/modules2.png"/>
+
+## module.js如何解决问题
 
 
 ## widget.js
