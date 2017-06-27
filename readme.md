@@ -14,7 +14,7 @@ dongtata的module.js就是来解决这个两个问题：
 
 ### 主入口执行滞后
 通俗的来说就是：从开始加载js到运行到主入口时间过长，AMD因为只加载要运行的部分，所以此项问题没有CMD严重，但是依然存在问题；
-<img src="./imgs/modules.png"/>
+<img src="./imgs/modules_.png"/>
 CMD引用一个模块的时候，通常这样写
 ```
 // es5
