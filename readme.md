@@ -67,7 +67,7 @@ Bdbdefine(function(require){
 }, true);
 ```
 其中原理非常简单，执行函数声明是0.00Xms级别的，而执行函数则不可预计，所以可以dongtata的module.js可以比其他更快的执行就在于，他没有吧所有的模块里的逻辑都走一遍，只是执行了模块的函数声明而已。
-
+<img src="./imgs/modules3.png"/>
 
 
 
