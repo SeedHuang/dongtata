@@ -43,12 +43,32 @@ for (var i=0; i < enNames.length; i++) {
 console.timeEnd("locationSet composite");
 module.exports = locationSet;
 ```
-最后输出的时间是`locationSet composite: 0.23193359375ms`
-以上只是5个城市，如果全国所有的30个省会城市的话，将会乘以6倍，对于首页来说，如果有10个模块有这种逻辑的话，所以后果就可想而知了。
+最后输出的时间是`locationSet composite: 0.23193359375ms`;
+并且这些时间是虽然计算复杂度和模块数量递增。
 
 <img src="./imgs/modules2.png"/>
 
 ## module.js如何解决问题
+```
+Bdbdefine('TestModule', function moduleWrap(require){
+    var a = require('A');
+    var b = require('B');
+    var result = {
+        'name': 'HuangChunhua'
+    };
+    return result;
+});
+```
+module.js的模块定义如上，requirejs的做法很像，但是又有所不同，在执行模块声明操作的时候，存储的结果并不是result，而是moduleWrap，只有通过,设置Bdbdefine的第二个参数，设置为true的时候，整个app才能开始运行。可以开脑洞的一点是，module.js支持分阶段执行。只有在Bdbdefine中执行require函数之后才能获得模块的最终实例。
+```
+Bdbdefine(function(require){
+    var a = require('TestModule');
+    alert(a.name);
+}, true);
+```
+其中原理非常简单，执行函数声明是0.00Xms级别的，而执行函数则不可预计，所以可以dongtata的module.js可以比其他更快的执行就在于，他没有吧所有的模块里的逻辑都走一遍，只是执行了模块的函数声明而已。
+
+
 
 
 ## widget.js
