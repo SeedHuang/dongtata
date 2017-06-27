@@ -1,0 +1,23 @@
+{
+  "name": "dongtata",
+  "version": "1.0.0",
+  "description": "A easy modules management lib and view layer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SeedHuang/dongtata.git"
+  },
+  "keywords": [
+    "modules",
+    "manangement"
+  ],
+  "author": "Seed Huang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SeedHuang/dongtata/issues"
+  },
+  "homepage": "https://github.com/SeedHuang/dongtata#readme"
+}
