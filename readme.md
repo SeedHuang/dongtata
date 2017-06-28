@@ -73,3 +73,26 @@ Bdbdefine(function(require){
 
 ## widget.js
 > 小巧的view层
+
+widget.js 的事件处理是借助于zepto的事件管理机制，住了这点外，widget本身所承载的代码和功能都非常简单（差一个jsx就变得高大尚）非常简单，或者说有些功能非常简陋，请尽量别使用zepto提供的其他功能，如`$('div > span')`,h5已经提供了足够好的`querySelector`与`querySelectorAll`，所以没有理由相信js的比原生功能还快是吧，就目前来说，zepto是widget最大的性能瓶颈。
+但大家别灰心，widget仍然足够好到你可以使用他来完成view组建的操作。
+要快，就要简单，直线永远是最近的，如果你硬要和我来谈“曲绕空间的话”，之后请私信我。
+### 生命周期
+复杂的生命周期是widget第一要避免的，我想声明的是reactjs的有很多声明钩子：
+- 实例化：
+    - getInitialState
+    - componentWillMount
+    - render
+    - componentDidMount
+- 更新
+    - componentWillRecieveProps
+    - shouldComponentUpdate
+    - componentWillUpdate
+    - render
+    - componentDidUpdate
+- 销毁
+    - componentWillUnmount
+
+但是实际上根据项目复杂程度来说，这些生命钩子并非都需要，举个简单的例子，一个简单的资讯页面
+
+但是一个更加复杂的项目，比如视频网站，则更加需要一些生命周期的控制，所以复杂度这种东西都是由业务决定的，而底层组建是独立于业务的，所以写组建就应该简单。
