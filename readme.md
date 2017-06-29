@@ -115,6 +115,33 @@ widget.js 的事件处理是借助于zepto的事件管理机制，住了这点�
 
 但是一个更加复杂的项目，比如视频网站，则更加需要一些生命周期的控制，所以复杂度这种东西都是由业务决定的，而底层组建是独立于业务的，所以写组建就应该简单。
 
+**Widget的必要参数:**
+Name        | dataType      | Description                                       
+------------|---------------|---------------------------------------------------
+tagName     | string        | html tags: div, span, label,或者customer Element   
+id          | string        | 组件的id                                            
+className   | string        | 样式类名
+create      | Func          | 初始化函数，create函数主要是用作第一次初始化的时候使用，只会被执行一次
+events      | Object        | 事件集合（使用zepto时间委托机制）
+el          | HtmlElement   | widget的html产出
+
+> 请不要篡改以上属性的数据类型，以免发生错误
+
+##### events:
+单独讲一下events, 使用的是zepto的事件委托，使用者可以单独绑定click，也可以使用事件 + 选择器的方式进行绑定事件
+```
+events: {
+    'click': function (e) {
+        alert('This is Widget\'s click');
+    },
+    "click div": function (e) {
+        alert('This is div\'s click');
+    }
+}
+```
+
+
+
 另外有一点，大家认为生命周期钩子可以有效的去解决性能衡量的事情，那这个问题就应该提出另外一个问题，什么时候开始衡量性能，所有的生命钩子都是在组建内部的，换句话说，这个组建已经开始被创建了，那么就会有误差，所以从实际角度出发来衡量一个组建的性能应该是从new这个组建或者new这个组建到appendChild之后的时间，这里还应该和FirstPaint的概念区分出来，因为appendChild 不等于立即绘制，所以性能的问题主要还是取决于使用者的衡量标准，而生命钩子的准确度本身是不够的。
 
 ## Hello World
