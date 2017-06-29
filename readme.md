@@ -93,8 +93,94 @@ widget.js 的事件处理是借助于zepto的事件管理机制，住了这点�
 - 销毁
     - componentWillUnmount
 
-但是实际上根据项目复杂程度来说，这些生命钩子并非都需要，举个简单的例子，一个简单的资讯页面
+但是实际上根据项目复杂程度来说，这些生命钩子并非都需要，举个简单的例子，一个简单的资讯页面，从上而下堆砌，本身就能够做到所有的功能，有的朋友说，那你为什么不用server端渲染，php，jsp，asp.net都比你做的要好，那我只能说，没错，纯从页面渲染的角度来说的确是这样，但是如果打组合拳的化，那就不是这样了，webview复用 + json的形式速度绝对超越你想想，以后会单开一个项目来解释。
 
 但是一个更加复杂的项目，比如视频网站，则更加需要一些生命周期的控制，所以复杂度这种东西都是由业务决定的，而底层组建是独立于业务的，所以写组建就应该简单。
 
 另外有一点，大家认为生命周期钩子可以有效的去解决性能衡量的事情，那这个问题就应该提出另外一个问题，什么时候开始衡量性能，所有的生命钩子都是在组建内部的，换句话说，这个组建已经开始被创建了，那么就会有误差，所以从实际角度出发来衡量一个组建的性能应该是从new这个组建或者new这个组建到appendChild之后的时间，这里还应该和FirstPaint的概念区分出来，因为appendChild 不等于立即绘制，所以性能的问题主要还是取决于使用者的衡量标准，而生命钩子的准确度本身是不够的。
+
+## Hello World
+先去zepto的网站，下载zepto，或者使用libs中zepto库
+```
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+        <meta charset="utf-8">
+        <style>
+            .helloworld {
+                color: #999;
+                size: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            console.time("time to main");
+        </script>
+        <script>
+            console.time("time to run zepto");
+        </script>
+        <script type="text/javascript" src="../../libs/zepto.js"></script>
+        <script>
+            console.timeEnd("time to run zepto");
+        </script>
+        <script type="text/javascript" src="../../module.js"></script>
+        <script type="text/javascript" src="../../widget.js"></script>
+        <script type="text/javascript" src="./helloworld.js"></script>
+        <script type="text/javascript" src="./main.js"></script>
+    </body>
+</html>
+
+
+```
+
+***helloworld.js***
+```
+/**
+* Hello world 组件
+* @file helloworld.js
+* @author Seed Huang
+*/
+Bdbdefine("HelloWorld", function(require){
+    console.time('init HelloWorld');
+    var Widget = require("Bd:Widget");
+    var widgetObj = {
+        'tagName': 'div',
+        'className': 'helloworld',
+        'id': 'helloworld',
+        'create': function () {
+            this.el.innerHTML = 'Hello World';
+        }
+    };
+    var HelloWorldWidget = Widget.extend(widgetObj);
+    console.timeEnd('init HelloWorld');
+    return HelloWorldWidget;
+});
+
+```
+***main.js***
+```
+/**
+* Hello World的主要入口
+* @file main.js
+* @author Seed Huang
+*/
+Bdbdefine("Main", function(require){
+    console.timeEnd("time to main");
+    console.time("time to display hello world");
+    var HelloWorld = require("HelloWorld");
+    var helloWorld = new HelloWorld();
+    document.body.appendChild(helloWorld.el);
+    console.timeEnd("time to display hello world");
+}, true);
+```
+最后打印出的时间是
+```
+time to run zepto: 13.964111328125ms
+time to main: 17.662841796875ms
+init HelloWorld: 0.132080078125ms
+time to display hello world: 0.713134765625ms
+```
+结果很明显，zepto这种IIFE形式的类库的确会阻断程序往下走，但是消耗尚在接受范围之内，而我们在走到祝模块之前没有初始化HelloWorld模块。
+对于dongtata，我的结论是足够快，但是仍有很大的优化空间，后续zepto干掉，性能再飞跃一步。

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+        <meta charset="utf-8">
+        <style>
+            .helloworld {
+                color: #999;
+                size: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            console.time("time to main");
+        </script>
+        <script>
+            console.time("time to run zepto");
+        </script>
+        <script type="text/javascript" src="../../libs/zepto.js"></script>
+        <script>
+            console.timeEnd("time to run zepto");
+        </script>
+        <script type="text/javascript" src="../../module.js"></script>
+        <script type="text/javascript" src="../../widget.js"></script>
+        <script type="text/javascript" src="./helloworld.js"></script>
+        <script type="text/javascript" src="./main.js"></script>
+    </body>
+</html>

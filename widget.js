@@ -8,7 +8,6 @@ Bdbdefine("Bd:Widget", {
             if (!self.tagName)
                 throw "[Comment Widget Error] Need tagName";
             self.el = document.createElement(self.tagName);
-            self.$el = $(self.el);
             self.className && (self.el.className = self.className);
             self.id && (self.el.id = self.id);
             if (self.events) {
@@ -42,7 +41,7 @@ Bdbdefine("Bd:Widget", {
                     }
                     i++;
                 }
-                
+
             }
             if (!self.create) {
                 throw "[Comment Widget Error] Need create function";
