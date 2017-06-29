@@ -4,24 +4,29 @@ dongtata名字起源于《海贼王》的咚塔塔小人组，寓意小而强大
 
 **done:**
 - [x] 模块管理
+- [x] 优化模块管理
 - [x] view层功能
-
-
 
 **to do:**
 - [ ] 移除zepto
+- [ ] 工程化模块管理，移除公式化代码
 - [ ] 增加必要的生命周期 done 和 update
-
-
-
+- [ ] 增加jsx
+- [ ] 增加对照数据
 
 ## module.js
 > 高效的模块管理
 
+目前js加载的性能瓶颈在哪里？这需要从几个方面来看，网络层面和js执行层面。
+
+### 网络层面：
+普观目前的前端项目，臃肿是一个很大的问题，其中有很多的工程和组件化的代码，以及许多第三方组件，特别是第三方组件大而全的功能，是臃肿的主要原因，使用20%的功能，却要承受4倍的文件大小，js文件拆开的又会有多次网络请求的问题，这个问题可以通过建立长链接或者http2来解决，但是一次下载和多次下载到底能够节省多少时间？其实答案不是特别确定的，大家可以做个实验在，大小在50k以内的js加载速度，1vs多其实相差不大，如果是在移动网络条件下，多次网络握手的成功率也令人担忧。
+
+### js执行层面
 目前使用cmd，amd的模式都会遇到一个问题，初始运行时模块引用链很长以及需要执行一遍所有模块声明，造成主入口执行滞后
 dongtata的module.js就是来解决这个两个问题：
 
-### 模块引用链很长
+#### 模块引用链很长
 模块之间相互依赖，导致import一个js，之后相应的引用都需要被加载一遍，AMD和CMD都会存在此问题；
 CMD引用一个模块的时候，通常这样写：
 ```
@@ -39,7 +44,7 @@ es6 `import` 只能放在顶部位置
 但一般方式都是写在顶部，这样就会造成十分严重的引用链过长的问题
 
 
-### 主入口执行滞后
+#### 主入口执行滞后
 通俗的来说就是：从开始加载js到运行到主入口时间过长，AMD因为只加载要运行的部分，所以就`执行所有模块声明，获得模块实例`此项问题没有CMD严重，但是依然存在问题；
 所有的模块在真正运行到主函数之前都会执行声明获得export的实例，所以模块越多，执行时间越长。如果在声明部分执行一些耗时的逻辑，这样这个模块获得模块实例的时间更长，看一下以下的例子：
 ```
@@ -61,7 +66,7 @@ module.exports = locationSet;
 
 <img src="./imgs/modules2.png"/>
 
-## module.js如何解决问题
+### module.js如何上述问题
 ```
 define('TestModule', function moduleWrap(require){
     var a = require('A');
@@ -155,6 +160,7 @@ widget.js 的事件处理是借助于zepto的事件管理机制，住了这点�
 * @file helloworld.js
 * @author Seed Huang
 */
+console.time('loading module Hello World');
 define("HelloWorld", function(require){
     console.time('init HelloWorld');
     var Widget = require("Bd:Widget");
@@ -170,7 +176,7 @@ define("HelloWorld", function(require){
     console.timeEnd('init HelloWorld');
     return HelloWorldWidget;
 });
-
+console.timeEnd('loading module Hello World');
 ```
 ***main.js***
 ```
@@ -190,10 +196,19 @@ define("Main", function(require){
 ```
 最后打印出的时间是
 ```
-time to run zepto: 13.964111328125ms
-time to main: 17.662841796875ms
-init HelloWorld: 0.132080078125ms
-time to display hello world: 0.713134765625ms
+time to run zepto: 19.903076171875ms
+loading module Hello World: 0.01416015625ms
+time to main: 25.005126953125ms
+init HelloWorld: 0.157958984375ms
+time to display hello world: 0.874267578125ms
 ```
-结果很明显，zepto这种IIFE形式的类库的确会阻断程序往下走，但是消耗尚在接受范围之内，而我们在走到祝模块之前没有初始化HelloWorld模块。
-对于dongtata，我的结论是足够快，但是仍有很大的优化空间，后续zepto干掉，性能再飞跃一步。
+看一下我一直诟病的模块加载速度的问题
+**locationSet vs HelloWorld**
+
+locationSet         | Loading HelloWorld  | init HelloWorld
+--------------------|---------------------|---------------------
+0.23193359375ms     | 0.01416015625ms     | 0.157958984375ms
+
+结果很明显：locationSet加载和初始化是在一起的，HelloWorld将加载和初始化分开，但0.014ms * 10也只有0.14ms，比单个locationSet嘴贱加载+初始化的时间还要短，而HelloWorld init使用了0.15ms，但是这个过程已经在main函数以内，执行的是必要执行的模块，所以这个必要消耗。另外值得注意的一方面是zepto这种IIFE形式的类库的确会阻断程序往下走，这里需要重点优化。
+
+At Last：对于dongtata，我的结论是足够快，但是仍有很大的优化空间，后续zepto干掉，性能再飞跃一步。

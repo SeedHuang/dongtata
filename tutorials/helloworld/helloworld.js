@@ -3,6 +3,7 @@
 * @file helloworld.js
 * @author Seed Huang
 */
+console.time('loading module Hello World');
 define("HelloWorld", function(require){
     console.time('init HelloWorld');
     var Widget = require("Bd:Widget");
@@ -18,3 +19,4 @@ define("HelloWorld", function(require){
     console.timeEnd('init HelloWorld');
     return HelloWorldWidget;
 });
+console.timeEnd('loading module Hello World');
