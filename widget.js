@@ -1,4 +1,4 @@
-Bdbdefine("Bd:Widget", {
+define("Bd:Widget", {
     "extend": function(options) {
         function Widget(opts) {
             var self = this;

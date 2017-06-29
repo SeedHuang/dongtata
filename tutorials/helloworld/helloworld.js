@@ -3,7 +3,7 @@
 * @file helloworld.js
 * @author Seed Huang
 */
-Bdbdefine("HelloWorld", function(require){
+define("HelloWorld", function(require){
     console.time('init HelloWorld');
     var Widget = require("Bd:Widget");
     var widgetObj = {

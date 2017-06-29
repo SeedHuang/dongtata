@@ -3,7 +3,7 @@
 * @file main.js
 * @author Seed Huang
 */
-Bdbdefine("Main", function(require){
+define("Main", function(require){
     console.timeEnd("time to main");
     console.time("time to display hello world");
     var HelloWorld = require("HelloWorld");

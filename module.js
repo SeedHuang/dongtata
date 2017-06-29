@@ -30,7 +30,7 @@
             return moduleSet[key];
         }
     }
-    window.Bdbdefine = define;
+    window.define = define;
     Bdbrowser.define = define;
     Bdbrowser.require = require;
 })();

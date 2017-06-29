@@ -2,7 +2,6 @@
   "name": "dongtata",
   "version": "1.0.0",
   "description": "A easy modules management lib and view layer",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,7 +11,8 @@
   },
   "keywords": [
     "modules",
-    "manangement"
+    "manangement",
+    "layer"
   ],
   "author": "Seed Huang",
   "license": "ISC",

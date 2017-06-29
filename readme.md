@@ -1,6 +1,19 @@
 # dongtata.js
 
-dongtata名字起源于《海贼王》的咚塔塔小人组，寓意小而强大，主要提供的功能是模块管理和view编写，dongtata目前还依赖与zepto的Promise，Ajax，event功能，之后会实现该功能并且移除zepto；
+dongtata名字起源于《海贼王》的咚塔塔小人组，寓意小而强大，主要提供的功能是更加高效快速的模块管理和简单的view编写，dongtata目前还依赖与zepto的Promise，Ajax，event功能，之后会实现该功能并且移除zepto；
+- []
+done:
+- [x] 模块管理
+- [x] view层功能
+
+
+
+to do:
+- [] 移除zepto
+- [] 增加必要的生命周期 done 和 update
+
+
+
 
 ## module.js
 > 高效的模块管理
@@ -50,7 +63,7 @@ module.exports = locationSet;
 
 ## module.js如何解决问题
 ```
-Bdbdefine('TestModule', function moduleWrap(require){
+define('TestModule', function moduleWrap(require){
     var a = require('A');
     var b = require('B');
     var result = {
@@ -59,9 +72,9 @@ Bdbdefine('TestModule', function moduleWrap(require){
     return result;
 });
 ```
-module.js的模块定义如上，requirejs的做法很像，但是又有所不同，在执行模块声明操作的时候，存储的结果并不是result，而是moduleWrap，只有通过,设置Bdbdefine的第二个参数，设置为true的时候，整个app才能开始运行。可以开脑洞的一点是，module.js支持分阶段执行。只有在Bdbdefine中执行require函数之后才能获得模块的最终实例。
+module.js的模块定义如上，requirejs的做法很像，但是又有所不同，在执行模块声明操作的时候，存储的结果并不是result，而是moduleWrap，只有通过,设置define的第二个参数，设置为true的时候，整个app才能开始运行。可以开脑洞的一点是，module.js支持分阶段执行。只有在define中执行require函数之后才能获得模块的最终实例。
 ```
-Bdbdefine(function(require){
+define(function(require){
     var a = require('TestModule');
     alert(a.name);
 }, true);
@@ -142,7 +155,7 @@ widget.js 的事件处理是借助于zepto的事件管理机制，住了这点�
 * @file helloworld.js
 * @author Seed Huang
 */
-Bdbdefine("HelloWorld", function(require){
+define("HelloWorld", function(require){
     console.time('init HelloWorld');
     var Widget = require("Bd:Widget");
     var widgetObj = {
@@ -166,7 +179,7 @@ Bdbdefine("HelloWorld", function(require){
 * @file main.js
 * @author Seed Huang
 */
-Bdbdefine("Main", function(require){
+define("Main", function(require){
     console.timeEnd("time to main");
     console.time("time to display hello world");
     var HelloWorld = require("HelloWorld");
