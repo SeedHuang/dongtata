@@ -1,16 +1,16 @@
 # dongtata.js
 
 dongtata名字起源于《海贼王》的咚塔塔小人组，寓意小而强大，主要提供的功能是更加高效快速的模块管理和简单的view编写，dongtata目前还依赖与zepto的Promise，Ajax，event功能，之后会实现该功能并且移除zepto；
-- []
-done:
+
+**done:**
 - [x] 模块管理
 - [x] view层功能
 
 
 
-to do:
-- [] 移除zepto
-- [] 增加必要的生命周期 done 和 update
+**to do:**
+- [ ] 移除zepto
+- [ ] 增加必要的生命周期 done 和 update
 
 
 
