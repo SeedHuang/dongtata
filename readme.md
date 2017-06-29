@@ -250,4 +250,4 @@ locationSet         | Loading HelloWorld  | init HelloWorld
 结果很明显：locationSet加载和初始化是在一起的，HelloWorld将“加载”和“初始化”化分开，但0.014ms * 10也只有0.14ms，比单个locationSet组件“加载+初始化”的时间还要短，而HelloWorld init使用了0.15ms，但是这个过程已经在main函数以内，执行的是必要执行的模块，所以这个是必要消耗。另外值得注意的一方面是zepto这种IIFE形式的类库的确会阻断程序往下走，这里需要重点优化。
 
 
-At Last：对于dongtata，我的结论是足够快，但是仍有很大的优化空间，后续zepto干掉，性能再飞跃一步。
+At Last：对于dongtata，我的结论是足够快，但是仍有很大的优化空间，后续zepto干掉，性能再飞跃一步，来日方长。
