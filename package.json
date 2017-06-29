@@ -1,7 +1,7 @@
 {
   "name": "dongtata",
   "version": "1.0.0",
-  "description": "A easy modules management lib and view layer",
+  "description": "A simple module management system and view layer",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
